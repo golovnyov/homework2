@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
@@ -12,6 +8,17 @@ namespace ConsoleApp1
         private Hashtable hashtable;
 
         private object[] array;
+
+        private Func<int, int> _hash;
+
+        public CustomDataStructure(Func<int, int> hashFunction)
+        {
+            _hash = hashFunction;
+
+            hashtable = new Hashtable();
+
+            //array = new object[1000000];
+        }
 
         public object this[int i]
         {
@@ -23,7 +30,16 @@ namespace ConsoleApp1
 
         private void SetValue(int index, object value)
         {
+            hashtable.Add(new Key(index, _hash), value);
 
+            //if (index <= 1e6)
+            //{
+            //    array[index] = value;
+            //}
+            //else
+            //{
+            //    hashtable.Add(new Key(index, _hash), value);
+            //}
         }
     }
 }

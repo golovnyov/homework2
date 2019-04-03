@@ -4,16 +4,21 @@ namespace ConsoleApp1
 {
     public class Key
     {
-        private Func<int> _hashFunction;
+        private int _hash;
 
-        public Key(Func<int> hashFuncton)
+        public Key(int index, Func<int, int> hashFuncton)
         {
-            _hashFunction = hashFuncton;
+            if (hashFuncton == null)
+            {
+                throw new ArgumentNullException(nameof(hashFuncton));
+            }
+
+            _hash = hashFuncton(index);
         }
 
         public override int GetHashCode()
         {
-            return _hashFunction();
+            return _hash;
         }
     }
 }

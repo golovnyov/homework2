@@ -13,6 +13,12 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
+            var customDataStructure = new CustomDataStructure(x => { return x; });
+
+            for (int i = 0; i < 1e6; i++)
+            {
+                customDataStructure[i] = i;
+            }
 
             Console.ReadLine();
         }
