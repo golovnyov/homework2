@@ -11,13 +11,19 @@ namespace ConsoleApp1
 
         private Func<int, int> _hash;
 
-        public CustomDataStructure(Func<int, int> hashFunction)
+        private int _currentIndex;
+
+        private int _sparseness;
+
+        public CustomDataStructure(Func<int, int> hashFunction, int insertionCount, int sparseness)
         {
             _hash = hashFunction;
 
             hashtable = new Hashtable();
 
-            //array = new object[1000000];
+            array = new object[insertionCount];
+
+            _sparseness = sparseness;
         }
 
         public object this[int i]
@@ -30,16 +36,16 @@ namespace ConsoleApp1
 
         private void SetValue(int index, object value)
         {
-            hashtable.Add(new Key(index, _hash), value);
+            _currentIndex = index;
 
-            //if (index <= 1e6)
-            //{
-            //    array[index] = value;
-            //}
-            //else
-            //{
-            //    hashtable.Add(new Key(index, _hash), value);
-            //}
+            if ((index -_currentIndex) > _sparseness)
+            {
+                hashtable.Add(new Key(index, _hash), value);
+            }
+            else
+            {
+                array[index] = value;
+            }
         }
     }
 }
