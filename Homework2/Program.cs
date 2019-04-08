@@ -2,7 +2,7 @@
 using BenchmarkDotNet.Running;
 using System;
 
-namespace ConsoleApp1
+namespace Homework2
 {
     public class Program
     {
@@ -20,33 +20,33 @@ namespace ConsoleApp1
         [Benchmark]
         public void RunPlainIntHashInsertion()
         {
-            var customDataStructure = new CustomDataStructure(x => { return x; }, InsertionCount, Sparseness);
+            var customDataStructure = new CustomDataStructure(x => { return x; });
 
-            for (int i = 0; i <= (InsertionCount * Sparseness) - Sparseness; i+=100)
+            for (int i = 0; i <= InsertionCount * Sparseness; i += Sparseness)
             {
-                customDataStructure[i] = i;
+                customDataStructure.SetHashTableValue(i);
             }
         }
 
         [Benchmark]
         public void RunComplex1HashInsertion()
         {
-            var customDataStructure = new CustomDataStructure(x => { return ((x >> 16) ^ x) * 0x45d9f3b; }, InsertionCount, Sparseness);
+            var customDataStructure = new CustomDataStructure(x => { return ((x >> 16) ^ x) * 0x45d9f3b; });
 
-            for (int i = 0; i <= (InsertionCount * Sparseness) - Sparseness; i += 100)
+            for (int i = 0; i <= InsertionCount* Sparseness; i += Sparseness)
             {
-                customDataStructure[i] = i;
+                customDataStructure.SetHashTableValue(i);
             }
         }
 
         [Benchmark]
         public void RunComplex2HashInsertion()
         {
-            var customDataStructure = new CustomDataStructure(x => { return 101 * ((x >> 24) + 101 * ((x >> 16) + 101 * (x >> 8))) + x; }, InsertionCount, Sparseness);
+            var customDataStructure = new CustomDataStructure(x => { return 101 * ((x >> 24) + 101 * ((x >> 16) + 101 * (x >> 8))) + x; });
 
             for (int i = 0; i <= (InsertionCount * Sparseness) - Sparseness; i += 100)
             {
-                customDataStructure[i] = i;
+                customDataStructure.SetHashTableValue(i);
             }
         }
 
@@ -55,20 +55,18 @@ namespace ConsoleApp1
         {
             var randomizer = new Random();
 
-            var customDataStructure = new CustomDataStructure(x => { return randomizer.Next(0, 10000); }, InsertionCount, Sparseness);
+            var customDataStructure = new CustomDataStructure(x => { return randomizer.Next(0, 10000); });
 
-            for (int i = 0; i <= (InsertionCount * Sparseness) - Sparseness; i += 100)
+            for (int i = 0; i <= InsertionCount * Sparseness; i += Sparseness)
             {
-                customDataStructure[i] = i;
+                customDataStructure.SetHashTableValue(i);
             }
         }
 
         [Benchmark]
         public void RunWithoutGapInsertion()
         {
-            var randomizer = new Random();
-
-            var customDataStructure = new CustomDataStructure(null, InsertionCount, Sparseness);
+            var customDataStructure = new CustomDataStructure(InsertionCount);
 
             for (int i = 0; i < InsertionCount; i++)
             {
